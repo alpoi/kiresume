@@ -1,33 +1,16 @@
-# for a description of available keys, see https://github.com/typst/packages/?tab=readme-ov-file#package-format
-
 [package]
-name = ""
-version = "0.1.0"
+name = "kiresume"
+version = "0.0.0"
 entrypoint = "src/lib.typ"
-authors = []
+authors = ["Angus Pointer <me@angus.buzz>"]
 license = "Unlicense"
-description = ""
-homepage = ""
-repository = ""
-keywords = []
-categories = []
-disciplines = []
-# compiler = ""
-exclude = [
-  ".github",
-  "docs",
-  "scripts",
-  "tests",
-  ".typstignore",
-  "Justfile",
-  "thumbnail-dark.svg",
-  "thumbnail-light.svg",
-]
+description = "A clean and customisable resume template."
+repository = "https://github.com/alpoi/kiresume"
+categories = ["cv"]
+keywords = ["resume", "cv", "template"]
+exclude = ["examples"]
 
-# [template]
-# path = "template"
-# entrypoint = "main.typ"
-# thumbnail = "thumbnail.png"
-
-# [tool.mytool]
-# foo = "bar"
+[template]
+path = "template"
+entrypoint = "main.typ"
+thumbnail = "examples/example.png"
