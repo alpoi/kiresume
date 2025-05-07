@@ -1,8 +1,8 @@
 name: Publish
 
 on:
-  push:
-    tags: [ v* ]
+  release:
+    types: [published]
 
 env:
   REGISTRY_REPO: alpoi/typst-packages
@@ -36,7 +36,7 @@ jobs:
 
       - name: Publish package
         run: |
-          PKG_VERSION="${{ github.ref_name }}"
+          PKG_VERSION="${{ github.event.release.tag_name }}"
           PKG_VERSION=${PKG_VERSION:1}
           mkdir -p typst-packages/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${PKG_VERSION}
           mv "out/*" typst-packages/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${PKG_VERSION}
