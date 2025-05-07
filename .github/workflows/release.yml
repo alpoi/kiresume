@@ -30,6 +30,9 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Set executable permissions for scripts
+        run: chmod +x ./scripts/*.sh
+
       - name: Increment version
         run: ./scripts/increment-version.sh ${{ github.event.inputs.bump }}
       
