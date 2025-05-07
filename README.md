@@ -16,7 +16,7 @@ A clean and customisable resume template. The name is a portmanteau of _kirei_ (
 
 ```typ
 // main.typ
-#import "@preview/kiresume:0.1.1": resume
+#import "@preview/kiresume:0.1.2": resume
 #resume(..json("config.json"))
 ```
 
