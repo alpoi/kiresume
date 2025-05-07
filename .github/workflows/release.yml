@@ -31,29 +31,7 @@ jobs:
           fetch-depth: 0
 
       - name: Increment version
-        id: version
-        run: |
-          CURRENT_VERSION=$(grep -oP '(?<=version = ")[^"]*' typst.toml)
-          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
-          case "${{ github.event.inputs.bump }}" in
-            patch)
-              patch=$((patch + 1))
-              ;;
-            minor)
-              minor=$((minor + 1))
-              patch=0
-              ;;
-            major)
-              major=$((major + 1))
-              minor=0
-              patch=0
-              ;;
-          esac
-          NEW_VERSION="$major.$minor.$patch"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          sed -i "s|version = \"$CURRENT_VERSION\"|version = \"$NEW_VERSION\"|" typst.toml
-          sed -i "s|@preview/kiresume:$CURRENT_VERSION|@preview/kiresume:$NEW_VERSION|" README.md
-          sed -i "s|@preview/kiresume:$CURRENT_VERSION|@preview/kiresume:$NEW_VERSION|" template/main.typ
+        run: ./scripts/increment-version.sh ${{ github.event.inputs.bump }}
       
       - name: Setup typst
         uses: typst-community/setup-typst@v3
@@ -61,10 +39,7 @@ jobs:
           typst-version: latest
 
       - name: Compile examples
-        run: |
-          typst compile --root ./ examples/example.typ examples/example.pdf
-          typst compile --root ./ examples/example.typ examples/example.png
-          typst compile --root ./ examples/example.typ examples/example.svg
+        run: ./scripts/compile-examples.sh
       
       - name: Commit and tag changes
         run: |
@@ -75,3 +50,8 @@ jobs:
           git push origin main
           git tag -a "v$NEW_VERSION" -m "🚀 $NEW_VERSION"
           git push origin "v$NEW_VERSION"
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v$NEW_VERSION" 
