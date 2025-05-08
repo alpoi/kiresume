@@ -106,9 +106,13 @@ jobs:
 
       - name: Test template and compile thumbnail
         run: |
-          LOCAL_PATH="~/.cache/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+          LOCAL_PATH="${XDG_DATA_HOME}/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+          CACHE_PATH="${XDG_CACHE_HOME}/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+
           mkdir -p ${LOCAL_PATH}
+          mkdir -p ${CACHE_PATH}
           cp -r out/* ${LOCAL_PATH}
+          cp -r out/* ${CACHE_PATH}
 
           typst init @preview/${{ env.PACKAGE_NAME }}:${{ needs.release.outputs.new_version }} local
           typst compile --font-path ./ -o out/thumbnail.png -w 250 local/main.typ
