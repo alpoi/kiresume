@@ -119,6 +119,7 @@ jobs:
 
       - name: Publish package
         run: |
+          PACKAGE_VERSION=${{ needs.release.outputs.new_version }}
           PACKAGE_PATH="typst-packages/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
           mkdir -p ${PACKAGE_PATH}
           cp -r out/* ${PACKAGE_PATH}
@@ -127,7 +128,7 @@ jobs:
           cd typst-packages
           git config --global user.name "alpoi[bot]"
           git config --global user.email "me@angus.buzz"
-          git checkout -b "${{ env.PACKAGE_NAME }}-${PKG_VERSION}"
+          git checkout -b "${{ env.PACKAGE_NAME }}-${PACKAGE_VERSION}"
           git add .
-          git commit -m "${{ env.PACKAGE_NAME }}:${PKG_VERSION}"
-          git push --set-upstream origin "${{ env.PACKAGE_NAME }}-${PKG_VERSION}"
+          git commit -m "${{ env.PACKAGE_NAME }}:${PACKAGE_VERSION}"
+          git push --set-upstream origin "${{ env.PACKAGE_NAME }}-${PACKAGE_VERSION}"
