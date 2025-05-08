@@ -40,8 +40,9 @@ jobs:
       - name: Debug
         run: |
           ls -a ~
-          ls -a ~/.local/share/typst
-          ls -a ~/.cache/typst
+          ls $HOME
+          echo $HOME
+          which typst
           exit 1
 
       - name: Checkout
