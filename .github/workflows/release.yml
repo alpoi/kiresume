@@ -39,9 +39,13 @@ jobs:
 
       - name: Debug
         run: |
+          echo "~"
           ls -a ~
-          ls $HOME
-          echo $HOME
+
+          echo "HOME"
+          ls -a $HOME
+
+          echo "which typst"
           which typst
           exit 1
 
