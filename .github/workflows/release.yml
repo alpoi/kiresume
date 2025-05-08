@@ -32,19 +32,6 @@ jobs:
     outputs:
       new_version: ${{ steps.set_version.outputs.new_version }}
     steps:
-      - name: Setup typst
-        uses: typst-community/setup-typst@v3
-        with:
-          typst-version: latest
-
-      - name: Debug
-        run: |
-          typst init @preview/fireside:1.0.0
-
-          ls -a ~/.cache/typst
-
-          exit 1
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -58,10 +45,10 @@ jobs:
         id: set_version
         run: echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
-      # - name: Setup typst
-      #   uses: typst-community/setup-typst@v3
-      #   with:
-      #     typst-version: latest
+      - name: Setup typst
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: latest
 
       - name: Download fonts
         run: chmod +x ./scripts/download-fonts.sh && ./scripts/download-fonts.sh
@@ -119,11 +106,12 @@ jobs:
 
       - name: Test template and compile thumbnail
         run: |
-          LOCAL_PATH="~/.local/share/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
-
+          LOCAL_PATH="~/.cache/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+          echo "LOCAL_PATH: ${LOCAL_PATH}"
           mkdir -p ${LOCAL_PATH}
           cp -r out/* ${LOCAL_PATH}
 
+          ls -a ${LOCAL_PATH}
           typst init @preview/${{ env.PACKAGE_NAME }}:${{ needs.release.outputs.new_version }} local
           typst compile --font-path ./ -o out/thumbnail.png -w 250 local/main.typ
           rm -rf local
