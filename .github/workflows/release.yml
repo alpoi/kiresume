@@ -109,6 +109,8 @@ jobs:
           typst init @preview/fireside:1.0.0 foo
           rm -rf foo
 
+          ls -a "~/.cache/typst/packages"
+          ls -a "~/.cache/typst/packages/preview"
           ls -a "~/.cache/typst/packages/preview/fireside/1.0.0"
 
           LOCAL_PATH="~/.cache/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
