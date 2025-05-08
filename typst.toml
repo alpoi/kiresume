@@ -1,6 +1,6 @@
 [package]
 name = "kiresume"
-version = "0.1.13"
+version = "0.1.14"
 entrypoint = "src/lib.typ"
 authors = ["Angus Pointer <me@angus.buzz>"]
 license = "Unlicense"
