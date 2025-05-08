@@ -7,7 +7,7 @@ A clean and customisable resume template. The name is a portmanteau of _kirei_ (
 ---
 
 <picture>
-  <img src="https://github.com/alpoi/kiresume/blob/v0.1.16/examples/example.svg" alt="an example of the resume template in use" />
+  <img src="https://github.com/alpoi/kiresume/blob/v0.1.17/examples/example.svg" alt="an example of the resume template in use" />
 </picture>
 
 </div>
@@ -16,7 +16,7 @@ A clean and customisable resume template. The name is a portmanteau of _kirei_ (
 
 ```typ
 // main.typ
-#import "@preview/kiresume:0.1.16": resume
+#import "@preview/kiresume:0.1.17": resume
 #resume(..json("config.json"))
 ```
 
