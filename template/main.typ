@@ -1,2 +1,2 @@
-#import "@preview/kiresume:0.1.14" : resume
+#import "@preview/kiresume:0.1.15" : resume
 #resume(..json("config.example.json"))
