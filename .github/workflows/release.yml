@@ -109,6 +109,9 @@ jobs:
           typst init @preview/fireside:1.0.0 foo
           rm -rf foo
 
+          echo $TYPST_PACKAGE_PATH
+          ls -a "~/.cache"
+          ls -a "~/.cache/typst"
           ls -a "~/.cache/typst/packages"
           ls -a "~/.cache/typst/packages/preview"
           ls -a "~/.cache/typst/packages/preview/fireside/1.0.0"
