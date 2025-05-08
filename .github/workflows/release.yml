@@ -38,9 +38,6 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Set executable permissions for scripts
-        run: chmod +x ./scripts/*.sh
-
       - name: Increment version
         run: ./scripts/increment-version.sh ${{ github.event.inputs.bump }}
       
@@ -53,8 +50,11 @@ jobs:
         with:
           typst-version: latest
 
+      - name: Download fonts
+        run: chmod +x ./scripts/download-fonts.sh && ./scripts/download-fonts.sh
+
       - name: Compile examples
-        run: ./scripts/compile-examples.sh
+        run: chmod +x ./scripts/compile-examples.sh && ./scripts/compile-examples.sh
       
       - name: Commit and tag changes
         run: |
@@ -86,6 +86,11 @@ jobs:
           token: ${{ secrets.REGISTRY_TOKEN }}
           path: typst-packages
 
+      - name: Setup typst
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: latest
+
       - name: Build package
         run: |
           mkdir out
@@ -97,9 +102,7 @@ jobs:
             out
 
       - name: Download fonts
-        run: |
-          chmod +x ./scripts/download-fonts.sh
-          ./scripts/download-fonts.sh
+        run: chmod +x ./scripts/download-fonts.sh && ./scripts/download-fonts.sh
 
       - name: Test template and compile thumbnail
         run: |
