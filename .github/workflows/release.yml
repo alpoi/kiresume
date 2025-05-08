@@ -106,7 +106,7 @@ jobs:
 
       - name: Test template and compile thumbnail
         run: |
-          LOCAL_PATH="~/.local/share/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+          LOCAL_PATH="~/.cache/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
           mkdir -p ${LOCAL_PATH}
           cp -r out/* ${LOCAL_PATH}
 
