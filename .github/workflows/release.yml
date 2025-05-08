@@ -39,14 +39,14 @@ jobs:
 
       - name: Debug
         run: |
-          echo "~"
-          ls -a ~
+          typst init @preview/fireside:1.0.0
 
           echo "HOME"
           ls -a $HOME
 
-          echo "which typst"
-          which typst
+          echo "typst location"
+          ls -a /opt/hostedtoolcache/typst/0.13.1
+
           exit 1
 
       - name: Checkout
