@@ -58,8 +58,8 @@ jobs:
       
       - name: Commit and tag changes
         run: |
-          git config user.name "alpoi [bot]"
-          git config user.email "me@angus.buzz"
+          git config --global user.name "alpoi[bot]"
+          git config --global user.email "me@angus.buzz"
           git add .
           git commit -m "🚀 $NEW_VERSION"
           git push origin main
@@ -79,17 +79,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build package
-        run: |
-          mkdir -p out
-          cp -r examples \
-            src \
-            template \
-            LICENSE \
-            README.md \
-            typst.toml \
-            out
-
       - name: Checkout package registry
         uses: actions/checkout@v4
         with:
@@ -97,16 +86,41 @@ jobs:
           token: ${{ secrets.REGISTRY_TOKEN }}
           path: typst-packages
 
+      - name: Build package
+        run: |
+          mkdir out
+          cp -r src \
+            template \
+            LICENSE \
+            README.md \
+            typst.toml \
+            out
+
+      - name: Download fonts
+        run: |
+          chmod +x ./scripts/download-fonts.sh
+          ./scripts/download-fonts.sh
+
+      - name: Test template and compile thumbnail
+        run: |
+          LOCAL_PATH="~/.local/share/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+          mkdir -p ${LOCAL_PATH}
+          cp -r out/* ${LOCAL_PATH}
+
+          typst init @preview/${{ env.PACKAGE_NAME }}:${{ needs.release.outputs.new_version }} local
+          typst compile --font-path ./ -o out/thumbnail.png -w 250 local/main.typ
+          rm -rf local
+
       - name: Publish package
         run: |
-          PKG_VERSION="${{ needs.release.outputs.new_version }}"
-          mkdir -p typst-packages/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${PKG_VERSION}
-          mv out/* typst-packages/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${PKG_VERSION}
+          PACKAGE_PATH="typst-packages/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
+          mkdir -p ${PACKAGE_PATH}
+          cp -r out/* ${PACKAGE_PATH}
           rm -rf out
 
           cd typst-packages
-          git config user.name "alpoi [bot]"
-          git config user.email "me@angus.buzz"
+          git config --global user.name "alpoi[bot]"
+          git config --global user.email "me@angus.buzz"
           git checkout -b "${{ env.PACKAGE_NAME }}-${PKG_VERSION}"
           git add .
           git commit -m "${{ env.PACKAGE_NAME }}:${PKG_VERSION}"

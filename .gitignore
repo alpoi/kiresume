@@ -1,4 +1,7 @@
 .vscode
 .idea
 .config.json
+
+local
 fonts/*
+typst-packages

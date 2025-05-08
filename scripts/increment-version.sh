@@ -17,5 +17,6 @@ esac
 NEW_VERSION="$major.$minor.$patch"
 echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 sed -i "s|version = \"$CURRENT_VERSION\"|version = \"$NEW_VERSION\"|" typst.toml
+sed -i "s|v$CURRENT_VERSION|v$NEW_VERSION|" README.md
 sed -i "s|@preview/kiresume:$CURRENT_VERSION|@preview/kiresume:$NEW_VERSION|" README.md
 sed -i "s|@preview/kiresume:$CURRENT_VERSION|@preview/kiresume:$NEW_VERSION|" template/main.typ
