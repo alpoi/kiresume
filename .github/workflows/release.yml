@@ -106,17 +106,10 @@ jobs:
 
       - name: Test template and compile thumbnail
         run: |
-          typst init @preview/fireside:1.0.0 foo
-          rm -rf foo
-
-          find ~ -iname "fireside"
-
-          LOCAL_PATH="~/.cache/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
-          echo "LOCAL_PATH: ${LOCAL_PATH}"
+          LOCAL_PATH="/home/runner/.cache/typst/${{ env.PATH_PREFIX }}/${{ env.PACKAGE_NAME }}/${{ needs.release.outputs.new_version }}"
           mkdir -p ${LOCAL_PATH}
           cp -r out/* ${LOCAL_PATH}
 
-          ls -a ${LOCAL_PATH}
           typst init @preview/${{ env.PACKAGE_NAME }}:${{ needs.release.outputs.new_version }} local
           typst compile --font-path ./ -o out/thumbnail.png -w 250 local/main.typ
           rm -rf local
