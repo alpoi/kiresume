@@ -114,7 +114,7 @@ jobs:
           cp -r out/* ${LOCAL_PATH}
 
           typst init @preview/${{ env.PACKAGE_NAME }}:${{ needs.release.outputs.new_version }} local
-          typst compile --font-path ./ -o out/thumbnail.png -w 250 local/main.typ
+          typst compile --font-path ./ local/main.typ out/thumbnail.png --ppi 250
           rm -rf local
 
       - name: Publish package
